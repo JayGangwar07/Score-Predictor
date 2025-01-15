@@ -10,7 +10,7 @@ st.set_page_config(page_title='IPL_Score_Predictor',layout="centered")
 
 #Get the ML model 
 
-filename='model.pbz2'
+filename='new_model.pbz2'
 model = jb.load(filename)
 
 #Title of the page with CSS
