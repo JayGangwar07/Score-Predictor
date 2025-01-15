@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Score Predictor 2022</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+            margin: 0;
+            background-image: url("https://4.bp.blogspot.com/-F6aZF5PMwBQ/Wrj5h204qxI/AAAAAAAABao/4QLn48RP3x0P8Ry0CcktxilJqRfv1IfcACLcBGAs/s1600/GURU%2BEDITZ%2Bbackground.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        h1 {
+            margin: 20px 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+        }
+        select, input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #00FF00;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>IPL Score Predictor 2022</h1>
+    <div class="container">
+        <form id="predictForm">
+            <label for="battingTeam">Select Batting Team:</label>
+            <select id="battingTeam" required>
+                <option value="">--Select--</option>
+                <option value="CSK">Chennai Super Kings</option>
+                <option value="DD">Delhi Daredevils</option>
+                <option value="KXIP">Kings XI Punjab</option>
+                <option value="KKR">Kolkata Knight Riders</option>
+                <option value="MI">Mumbai Indians</option>
+                <option value="RR">Rajasthan Royals</option>
+                <option value="RCB">Royal Challengers Bangalore</option>
+                <option value="SRH">Sunrisers Hyderabad</option>
+            </select>
+
+            <label for="bowlingTeam">Select Bowling Team:</label>
+            <select id="bowlingTeam" required>
+                <option value="">--Select--</option>
+                <option value="CSK">Chennai Super Kings</option>
+                <option value="DD">Delhi Daredevils</option>
+                <option value="KXIP">Kings XI Punjab</option>
+                <option value="KKR">Kolkata Knight Riders</option>
+                <option value="MI">Mumbai Indians</option>
+                <option value="RR">Rajasthan Royals</option>
+                <option value="RCB">Royal Challengers Bangalore</option>
+                <option value="SRH">Sunrisers Hyderabad</option>
+            </select>
+
+            <label for="overs">Current Over:</label>
+            <input type="number" id="overs" min="5.1" max="19.5" step="0.1" required>
+
+            <label for="runs">Current Runs:</label>
+            <input type="number" id="runs" min="0" max="354" required>
+
+            <label for="wickets">Wickets Fallen:</label>
+            <input type="number" id="wickets" min="0" max="9" required>
+
+            <label for="runsLast5">Runs in Last 5 Overs:</label>
+            <input type="number" id="runsLast5" min="0" required>
+
+            <label for="wicketsLast5">Wickets in Last 5 Overs:</label>
+            <input type="number" id="wicketsLast5" min="0" required>
+
+            <button type="submit">Predict Score</button>
+        </form>
+        <div id="result" class="result"></div>
+        <div id="error" class="error"></div>
+    </div>
+
+    <script>
+        document.getElementById('predictForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const battingTeam = document.getElementById('battingTeam').value;
+            const bowlingTeam = document.getElementById('bowlingTeam').value;
+            const overs = parseFloat(document.getElementById('overs').value);
+            const runs = parseInt(document.getElementById('runs').value);
+            const wickets = parseInt(document.getElementById('wickets').value);
+            const runsLast5 = parseInt(document.getElementById('runsLast5').value);
+            const wicketsLast5 = parseInt(document.getElementById('wicketsLast5').value);
+
+            if (battingTeam === bowlingTeam) {
+                document.getElementById('error').innerText = "Batting and Bowling teams should be different.";
+                return;
+            }
+            document.getElementById('error').innerText = "";
+
+            // Send data to backend for prediction
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    battingTeam,
+                    bowlingTeam,
+                    overs,
+                    runs,
+                    wickets,
+                    runsLast5,
+                    wicketsLast5
+                }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                document.getElementById('result').innerText = `Predicted Match Score: ${data.prediction}`;
+            } else {
+                document.getElementById('result').innerText = '';
+                document.getElementById('error').innerText = data.error;
+            }
+        });
+    </script>
+</body>
+</html>
