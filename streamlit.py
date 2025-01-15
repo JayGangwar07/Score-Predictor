@@ -110,11 +110,11 @@ col3, col4 = st.columns(2)
 
 with col3:
 #Runs in last 5 over
-    runs_in_prev_5 = st.number_input('Runs scored in the last 5 overs',min_value=0,max_value=runs,step=1,format='%i')
+    runs_in_prev_5 = st.number_input('Runs scored in the last 5 overs',min_value=0,max_value=354,step=1,format='%i')
 
 with col4:
 #Wickets in last 5 over
-    wickets_in_prev_5 = st.number_input('Wickets taken in the last 5 overs',min_value=0,max_value=wickets,step=1,format='%i')
+    wickets_in_prev_5 = st.number_input('Wickets taken in the last 5 overs',min_value=0,max_value=354,step=1,format='%i')
 
 #Get all the data for predicting
 
