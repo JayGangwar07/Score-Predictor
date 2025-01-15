@@ -7,7 +7,7 @@ app = Flask(__name__)
 def temp():
   return render_template('index.html')
 # Load the model
-model = pickle.load(open('model.pb2z', 'rb'))
+model = pickle.load(open('model.pbz2', 'rb'))
 
 @app.route('/predict', methods=['POST'])
 def predict():
