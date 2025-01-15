@@ -2,7 +2,7 @@
 
 import math
 import numpy as np
-import pickle
+import joblib as jb
 import streamlit as st
 
 #SET PAGE WIDE
@@ -11,7 +11,7 @@ st.set_page_config(page_title='IPL_Score_Predictor',layout="centered")
 #Get the ML model 
 
 filename='model.pbz2'
-model = pickle.load(filename)
+model = jb.load(filename)
 
 #Title of the page with CSS
 
